@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="SIGKDD Blog" />
+    
+    <!-- Stylesheets
+    ============================================= -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Roboto:500,900,400italic,100,300,700,500italic,400' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://www.kdd.org/css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="https://www.kdd.org/style.css" type="text/css" />
+    <link rel="stylesheet" href="https://www.kdd.org/css/dark.css" type="text/css" />
+    <link rel="stylesheet" href="https://www.kdd.org/css/font-icons.css" type="text/css" />
+    <link rel="stylesheet" href="https://www.kdd.org/css/animate.css" type="text/css" />
+    <link rel="stylesheet" href="https://www.kdd.org/css/magnific-popup.css" type="text/css" />
+
+    <link rel="stylesheet" href="https://www.kdd.org/css/responsive.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <!--[if lt IE 9]>
+    	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <![endif]-->
+
+    <!-- External JavaScripts
+    ============================================= -->
+	<script type="text/javascript" src="https://www.kdd.org/js/jquery.js"></script>
+	<script type="text/javascript" src="https://www.kdd.org/js/plugins.js"></script>
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+    
+
+    <!-- Document Title
+    ============================================= -->
+	<title>SIGKDD : KDD Cup 2009 : Customer relationship prediction</title>
+
+</head>
+
+<body class="stretched">
+
+    <!-- Document Wrapper
+    ============================================= -->
+    <div id="wrapper" class="clearfix">
+
+        <!-- Header
+        ============================================= -->
+        
+        <header id="header" class="full-header full-header-dark noleftborder norightborder">
+
+            <div id="header-wrap">
+
+                <div class="container clearfix" style="background: #000;">
+
+                    <div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+
+                    <!-- Logo
+                    ============================================= -->
+                    <div id="logo" class="noborder">
+                        <a href="https://www.kdd.org/" class="standard-logo" data-dark-logo="https://www.kdd.org/images/logo-dark.png"><img src="https://www.kdd.org/images/kdd.png" alt="SIGKDD"></a>
+                    </div><!-- #logo end -->
+
+                    <!-- Primary Navigation
+                    ============================================= -->
+                    <nav id="primary-menu">
+
+                        <ul>
+                          <li><a href="https://www.kdd.org/"><div>Home</div></a></li>
+                            
+                                            <li><a href="https://www.kdd.org/conferences"><div>Conferences</div></a>
+                                <ul>
+
+                                      <li><a href="https://www.kdd.org/kdd2019"><div>KDD 2019 - Anchorage</div></a></li>
+                                         <li><a href="https://www.kdd.org/kdd2020"><div>KDD 2020 - San Diego</div></a></li>
+                                     <li><a href="https://www.kdd.org/conferences"><div>KDD Conference Archives</div></a></li>
+                                       <li><a href="https://www.kdd.org/proceedings"><div>KDD Proceedings Archives</div></a></li>
+                                      <li><a href="https://www.kdd.org/kdd-cup"><div>KDD Cup Archives</div></a></li>
+                                
+                                </ul>
+                            </li>              
+                           
+                          
+                            
+                             <li><a href="#"><div>Awards</div></a>
+                                <ul>
+                                      <li ><a href="https://www.kdd.org/awards/sigkdd-innovation-award"><div>Innovation Award</div></a></li>
+                                      <li><a href="https://www.kdd.org/awards/sigkdd-service-award"><div>Service Award</div></a></li>
+                                    <li><a href="https://www.kdd.org/awards/kdd-test-of-time-award"><div>Test of Time Award</div></a></li>
+                                      <li><a href="https://www.kdd.org/awards/sigkdd-dissertation-award"><div>Dissertation Award</div></a></li>
+                                     <li><a href="https://www.kdd.org/awards/sigkdd-best-research-paper-awards"><div>Best Paper Award</div></a></li>
+
+
+                                </ul>
+                            </li>
+                            
+                              <li><a href="#"><div>Publications</div></a>
+                                <ul>
+                                    <li><a href="https://www.kdd.org/explorations"><div>SIGKDD Explorations</div></a>
+                                    </li>
+                                      <li><a href="https://www.kdd.org/curriculum/view/introduction"><div>SIGKDD Curriculum</div></a>
+                                    </li>
+                          
+                                
+                                    
+                                     
+                                  
+                                </ul>
+                            </li>
+                            
+                            
+                            <li ><a href="https://www.kdd.org/news"><div>News</div></a>
+                               
+                            </li>
+                           
+                            <li><a href="https://www.kdd.org/about"><div>About</div></a>
+                            <ul>
+                            <li><a href="https://www.kdd.org/about"><div>About SIGKDD</div></a>
+                            <li><a href="https://campus2.acm.org/public/qj/login_gensigqj.cfm?rdr=promo=QJSIG&offering=048&form_type=SIG"><div>Join SIGKDD</div></a>
+
+                            
+                            <li><a href="https://www.kdd.org/chapters"><div>KDD Local Chapters</div></a><li>
+                            </ul>
+
+                            </li>
+                           
+                               <li ><a href="https://www.kdd.org/contact"><div>Contact</div></a>
+                              
+                            </li>
+                       
+
+                        </ul>
+
+                  
+                    
+                        <!-- Top Search
+                        ============================================= -->
+                        <div id="top-search">
+                            <a href="#" id="top-search-trigger"><i class="icon-search3"></i><i class="icon-line-cross"></i></a>
+                            <form method="post" action="https://www.kdd.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="iji8OrqyfkD0LGJdY+LgfiBfZr1BNkeZicZFz1IBrN0jA3/bv2fxIAWBC6eHYKCPo9PPY/JxzA0koVVAcJzObAo+Ev6cXSFfEbYHOnjlp4nQY9rAdUk9x0tov2lcjA3JI2vv0LFRWIcQpr5wEEeXg9DJILb7rczeRIWAkSfVHQlEzZPydFiuMwEcUfX1ff8yVbYuqArU19dg1Xolpvfq3KPa41lGFt3haGP7zVOeo0Jdwm+QlrLSPHdPbSVPYxkBmptZodbS3v8AfQ5a4ZiuUmDo5CzmbGOSAIeLUQiPdV5xxTJAWoY6Fsu9v7RY+0Wn5Ytnyt5AHw/altiIzx/odkVyblabK7WrL0loZ/Oa8DENRRPJhxTac5GIeYlx0vUK" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="795bad70b2f77c3acd43bf0cac66e613a962f061" />
+</div>
+
+
+                            <input type="text" name="keywords" id="keywords" class="form-control" value="" placeholder="Search">
+                            
+                            </form>
+                        </div><!-- #top-search end -->
+
+                    </nav><!-- #primary-menu end -->
+
+                </div>
+
+            </div>
+
+        </header>
+        
+        <!-- #header end -->
+        
+        
+          <!-- Page Sub Menu
+		============================================= -->
+		<div id="page-menu">
+
+			<div id="page-menu-wrap">
+
+				<div class="container clearfix">
+
+					<div class="menu-title"><span>KDD Cup 2009</span></div>
+
+					<nav>
+						<ul>
+							<li ><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2009/Intro">Intro</a></li>
+							<li ><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2009/Tasks">Tasks</a></li>
+							<li ><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2009/Rules">Rules</a></li>
+							<li class="current"><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2009/Data">Data</a></li>
+							<li ><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2009/Results">Results</a></li>
+							<li ><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2009/FAQ">FAQ</a></li>
+							<li ><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2009/Contacts">Contacts</a></li>
+						</ul>
+					</nav>
+
+				<div id="page-submenu-trigger"><i class="icon-reorder"></i></div>
+
+				</div>
+
+			</div>
+
+		</div><!-- #page-menu end -->
+                    
+
+        <!-- Content
+        ============================================= -->
+        <section id="content">
+
+            <div class="content-wrap">
+
+                <div class="container clearfix">
+                
+                        
+
+                    <!-- Post Content
+                    ============================================= -->
+                    <div class="postcontent nobottommargin clearfix">
+                    
+                    
+
+                        <div class="single-post nobottommargin">
+
+                            <!-- Single Post
+                            ============================================= -->
+                            <div class="entry clearfix">
+                            
+                               <!-- Entry Meta
+                                ============================================= -->
+                             <!-- .entry-meta end -->
+
+                                                     
+                               <div class="fancy-title title-double-border"><h2 style="margin-bottom: 30px;"><span>Data</span></h2></div>
+                                <div class="sub-text"><h4  style="margin-bottom: 30px; margin-top: -40px;">KDD Cup 2009: Customer relationship prediction</h4></div>
+                                <!-- Entry Content
+                                ============================================= -->
+                                <div class="entry-content notopmargin">
+
+                                   <!-- Post Single - Content End -->
+                                    <h3 align="justify" class="head1"><font class="title"><font class="basic"><b>Data Download</b> </font></font></h3>
+
+<div align="justify" class="head2">
+<h4><font class="title"><font class="basic"><font class="basic"><b>Training and test data matrices and practice target values</b></font></font></font></h4>
+
+<p><font class="title"><font class="basic"><font class="basic">The large dataset archives are available since the onset of the challenge. The small dataset will be made available at the end of the fast challenge. Both training and test sets contain <b>50,000 examples</b>. The data are split similarly for the small and large versions, but the samples are ordered differently within the training and within the test sets. Both small and large datasets have numerical and categorical variables. For the large dataset, the first <b>14,740 variables are numerical</b> and the last <b>260 are categorical</b>. For the small dataset, the first <b>190 variables are numerical</b> and the last <b>40 are categorical</b>. Toy target values are available only for practice purpose. The prediction of the toy target values will not be part of the final evaluation.</font></font></font></p>
+
+<p><font class="title"><font class="basic"><font class="basic">Small version (230 var.):</font></font></font></p>
+
+<ul>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_small_train.data.zip">orange_small_train.data.zip</a> (8.2 Mbytes)</li>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_small_test.data.zip">orange_small_test.data.zip</a> (8.2 Mbytes)</li>
+</ul>
+
+<p>Large version (15,000 var.):</p>
+
+<ul>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_large_train.data.chunk1.zip">orange_large_train.data.chunk1.zip</a> (52.7 Mbytes)</li>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_large_train.data.chunk2.zip">orange_large_train.data.chunk2.zip</a> (52.7 Mbytes)</li>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_large_train.data.chunk3.zip">orange_large_train.data.chunk3.zip</a> (52.6 Mbytes)</li>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_large_train.data.chunk4.zip">orange_large_train.data.chunk4.zip</a> (52.5 Mbytes)</li>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_large_train.data.chunk5.zip">orange_large_train.data.chunk5.zip</a> (52.6 Mbytes)</li>
+	<br />
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_large_test.data.chunk1.zip">orange_large_test.data.chunk1.zip</a> (52.8 Mbytes)</li>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_large_test.data.chunk2.zip">orange_large_test.data.chunk2.zip</a> (52.5 Mbytes)</li>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_large_test.data.chunk3.zip">orange_large_test.data.chunk3.zip</a> (52.6 Mbytes)</li>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_large_test.data.chunk4.zip">orange_large_test.data.chunk4.zip</a> (52.6 Mbytes)</li>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_large_test.data.chunk5.zip">orange_large_test.data.chunk5.zip</a> (52.6 Mbytes)</li>
+</ul>
+
+<p>Toy targets (large):</p>
+
+<ul>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_large_train_toy.labels">orange_large_train_toy.labels</a></li>
+</ul>
+
+<p><b>True task labels</b></p>
+
+<p>Real binary targets (small):</p>
+
+<ul>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_small_train_appetency.labels">orange_small_train_appentency.labels</a></li>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/files/orange_small_train_churn.labels">orange_small_train_churn.labels</a></li>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_small_train_upselling.labels">orange_small_train_upselling.labels</a></li>
+</ul>
+
+<p>Real binary targets (large):</p>
+
+<ul>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_large_train_appetency.labels">orange_large_train_appetency.labels</a></li>
+	<li><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/orange_large_train_churn.labels">orange_large_train_churn.labels</a></li>
+	<li><font class="basic"><a href="https://www.kdd.org/cupfiles/KDDCupData/2009/files/orange_large_train_upselling.labels">orange_large_train_upselling.labels</a></font></li>
+</ul>
+</div>
+
+<p><font class="basic"><b>Data Format</b> </font></p>
+
+<p><font class="basic">The datasets use a format similar as that of the text export format from relational databases:</font></p>
+
+<ul>
+	<li><font class="basic">One header lines with the variables names</font></li>
+	<li><font class="basic">One line per instance</font></li>
+	<li><font class="basic">Separator tabulation between the values</font></li>
+	<li><font class="basic">There are missing values (consecutive tabulations)</font></li>
+</ul>
+
+<p><font class="basic">The large matrix results from appending the various chunks downloaded in their order number. The header line is present only in the first chunk. </font></p>
+
+<p><font class="basic">The target values (.labels files) have one example per line in the same order as the corresponding data files. Note that churn, appetency, and up-selling are three separate binary classification problems. The target values are +1 or -1. We refer to examples having +1 (resp. -1) target values as positive (resp. negative) examples. </font></p>
+
+<p><font class="basic">The Matlab matrices are numeric. When loaded, the data matrix is called X. The categorical variables are mapped to integers. Missing values are replaced by NaN for the original numeric variables while they are mapped to 0 for categorical variables. </font></p>
+
+                        
+
+
+                                    <div class="clear"></div>
+                                    
+                         
+
+					
+                                    
+                                    
+ 
+                                  
+                                </div>
+                            </div><!-- .entry end -->
+
+
+                          
+
+                        </div>
+
+                    </div><!-- .postcontent end -->
+              
+                    <!-- Sidebar
+                    ============================================= -->
+                    <div class="sidebar nobottommargin col_last clearfix">
+                        <div class="sidebar-widgets-wrap">
+                        
+                         <form method="post" action="https://www.kdd.org/"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="6" />
+<input type="hidden" name="RES" value="" />
+<input type="hidden" name="meta" value="iji8OrqyfkD0LGJdY+LgfiBfZr1BNkeZicZFz1IBrN0dVVSm08DClf7W7CCNfHCvOvgzQPXJu4+8JOZkTIDawsueek4NA8acPruxgiEW1WEqhtPtaGsceCBZ+HPXXybYI4HfbEy65tt8RMHrMfv1aDgnExREC29/Hj/+szuISbMSLSK+xTrpyZ/Prj0T1w0QANONKSbnF+IHbcdeaQJEUtJmqMVvCTJKA4aVnrdBQy7Iw5hvu8ZEbiKAYjhK3/fRYQfkxei+baahD5+7k1MhiTjTQ86mN7rKx+x/f9CfEgRd0DRqtscA9LFGSs3c8e3GX4yW0rzOBzUheb45vBPlMVW+IjUBuAIRWMTLYIL9viGY5OU13qJhOFTw4Zg2V4DI" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="795bad70b2f77c3acd43bf0cac66e613a962f061" />
+</div>
+
+
+        <p>
+                <label for="keywords">Search KDD Cup Archives</label><br>
+                <input type="text" name="keywords" id="keywords"  value=""  class="form-control" size="18" maxlength="100">
+        </p>
+        <p>
+                <input type="submit" value="submit" class="button button-3d nomargin">
+        </p>
+</form>
+                               <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">KDD Cup Archive</h3>
+                            </div>
+							 <!-- Table -->
+                            <table class="table">
+                                     <tbody>
+                            <tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2016">KDD Cup 2016</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2014">KDD Cup 2014</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2013-track-2">KDD Cup 2013 (Track 2)</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2013-track-1">KDD Cup 2013 (Track 1)</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2012-track-2">KDD Cup 2012 (Track 2)</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2012-track-1">KDD Cup 2012 (Track 1)</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2011">KDD Cup 2011</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2010-student-performance-evaluation">KDD Cup 2010</a></td></tr><tr><td><b><span style="text-transform: uppercase;">KDD Cup 2009</a></b></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2008">KDD Cup 2008</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2007">KDD Cup 2007</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2006">KDD Cup 2006</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2005">KDD Cup 2005</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2004">KDD Cup 2004</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2003">KDD Cup 2003</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2002">KDD Cup 2002</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2001">KDD Cup 2001</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-2000">KDD Cup 2000</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-1999">KDD Cup 1999</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-1998">KDD Cup 1998</a></td></tr><tr><td><a href="https://www.kdd.org/kdd-cup/view/kdd-cup-1997">KDD Cup 1997</a></td></tr>
+							    </tbody>
+								</table>
+                        </div>
+                        
+                             
+                        </div>
+
+                    </div><!-- .sidebar end -->
+
+                </div>
+
+            </div>
+
+        </section><!-- #content end -->
+
+        <!-- Footer
+        ============================================= -->
+    
+        <footer id="footer" class="dark">
+
+            <div class="container">
+
+                <!-- Footer Widgets
+                ============================================= -->
+                <div class="footer-widgets-wrap clearfix">
+
+          
+
+                        <div class="col_one_third">
+
+                            <div class="widget clearfix">
+
+                                <img src="https://www.kdd.org/images/kdd.png" alt="" class="footer-logo">
+
+                                <p>The community for data mining, data science and analytics</p>
+                                <a href="http://www.acm.org"><img src="https://www.kdd.org/images/structure/acm.png" style="width: 50%;"></a>
+
+
+
+                                
+                            </div>
+                            
+                            
+                        </div>
+
+                        
+                        <div class="col_one_third">
+
+                            <div class="widget clearfix">
+                                <h4>Recent Posts</h4>
+
+                                <div id="post-list-footer">
+                                
+                                 <div class="spost clearfix">
+                                        <div class="entry-c">
+                                            <div class="entry-title">
+                                                <h4><a href="https://www.kdd.org/Explorations/view/december-2018-volume-20-issue-2">December 2018, Volume 20, Issue 2</a></h4>
+                                            </div>
+                                            <ul class="entry-meta">
+                                                <li>Jan 09 2019</li>
+                                            </ul>
+                                        </div>
+                                    </div><div class="spost clearfix">
+                                        <div class="entry-c">
+                                            <div class="entry-title">
+                                                <h4><a href="https://www.kdd.org/awards/view/2018-sigkdd-test-of-time-award-winners">2018 SIGKDD Test of Time Award Winners</a></h4>
+                                            </div>
+                                            <ul class="entry-meta">
+                                                <li>Jul 23 2018</li>
+                                            </ul>
+                                        </div>
+                                    </div><div class="spost clearfix">
+                                        <div class="entry-c">
+                                            <div class="entry-title">
+                                                <h4><a href="https://www.kdd.org/Explorations/view/june-2018-volume-20-issue-1">June 2018, Volume 20, Issue 1</a></h4>
+                                            </div>
+                                            <ul class="entry-meta">
+                                                <li>May 09 2018</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                   
+
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+
+           
+
+                    <div class="col_one_third col_last">
+
+                        <div class="widget subscribe-widget clearfix">
+                            <h4><strong>Stay informed</strong></h4>
+               
+              
+
+                            <div class="row">
+
+                                <div class="col-md-6 clearfix bottommargin-sm">
+                                    <a href="https://www.facebook.com/SIGKDD" class="social-icon si-dark si-colored si-facebook nobottommargin" style="margin-right: 10px;">
+                                        <i class="icon-facebook"></i>
+                                        <i class="icon-facebook"></i>
+                                    </a>
+                                    <a href="https://www.facebook.com/SIGKDD"><small style="display: block; margin-top: 3px;"><strong>Like us</strong><br>on Facebook</small></a>
+                                </div>
+                                   <div class="col-md-6 clearfix">
+                                    <a href="https://twitter.com/kdd_news" class="social-icon si-dark si-colored si-twitter nobottommargin" style="margin-right: 10px;">
+                                        <i class="icon-twitter"></i>
+                                        <i class="icon-twitter"></i>
+                                    </a>
+                                    <a href="https://twitter.com/kdd_news"><small style="display: block; margin-top: 3px;"><strong>Follow us</strong><br>on Twitter</small></a>
+                                </div>
+                                 
+                            </div>
+                            
+                         
+                            
+                                  <div class="row">
+
+                                <div class="col-md-6 clearfix bottommargin-sm">
+                                    <a href="http://visitor.r20.constantcontact.com/manage/optin?v=001emHU8ZhrsEZiqB3IYo9iWdC9KepIY1BUeMPGJ5FBiNJ_oBGyGlhezfDDlTWJgq3gWtEbnozSGHU8YBL1BT0lQ6-uSitogtKKGOza91izo18%3D" class="social-icon si-dark si-colored si-facebook nobottommargin" style="margin-right: 10px;">
+                                        <i class="icon-email"></i>
+                                        <i class="icon-email"></i>
+                                    </a>
+                                    <a href="http://visitor.r20.constantcontact.com/manage/optin?v=001emHU8ZhrsEZiqB3IYo9iWdC9KepIY1BUeMPGJ5FBiNJ_oBGyGlhezfDDlTWJgq3gWtEbnozSGHU8YBL1BT0lQ6-uSitogtKKGOza91izo18%3D"><small style="display: block; margin-top: 3px;"><strong>Subscribe</strong><br>for Email Updates</small></a>
+                                </div>
+                                
+                                 <div class="col-md-6 clearfix">
+                                    <a href="https://www.kdd.org/feeds/rss" class="social-icon si-dark si-colored si-twitter nobottommargin" style="margin-right: 10px;">
+                                        <i class="icon-rss"></i>
+                                        <i class="icon-rss"></i>
+                                    </a>
+                                    <a href="https://www.kdd.org/feeds/rss"><small style="display: block; margin-top: 3px;"><strong>Subscribe</strong><br>to our RSS</small></a>
+                                </div>
+
+
+                                                                
+                                </div>
+                                </div>
+
+                               
+                                
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div><!-- .footer-widgets-wrap end -->
+
+            </div>
+
+            <!-- Copyrights
+            ============================================= -->
+            <div id="copyrights">
+
+                <div class="container clearfix">
+
+                    <div class="col_half">
+                        Copyrights &copy; 2018 All Rights Reserved - SIGKDD<br>
+                        <a href="http://www.acm.org/sigs/volunteer_resources/officers_manual/code%20of%20conduct">ACM Code of Conduct</a>
+                        <div class="copyright-links"><a href="#"></a>  <a href="#"></a></div>
+                    </div>
+
+                    <div class="col_half col_last tright">
+                        <div class="fright clearfix">
+                           
+                        </div>
+
+                        <div class="clear"></div>
+
+                        
+                    </div>
+
+                </div>
+
+            </div><!-- #copyrights end -->
+
+        </footer>
+    
+    <!-- #footer end -->
+
+    </div><!-- #wrapper end -->
+    
+        <!-- Go To Top
+    ============================================= -->
+    <div id="gotoTop" class="icon-angle-up"></div>
+
+    <!-- Footer Scripts
+    ============================================= -->
+    <script type="text/javascript" src="https://www.kdd.org/js/functions.js"></script>
+    
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32528290-11', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+   
+
+</body>
+</html>
