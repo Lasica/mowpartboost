@@ -31,7 +31,18 @@ myxgb <- setRefClass("myxgb",
                 #wynik - dataframe z models i weights
               },
               
-              predict = function() {}
+              predict = function(data) {
+                labels <- numeric(nrow(data))
+                
+                labels <- labels + bias
+                
+                for (i in 1:(length(models)))
+                {
+                  model_result <- rpart.predict(models[[i]], data)
+                  labels <- labels + model_result  * weights[[i]] 
+                }
+                
+              }
               )
             )
 
