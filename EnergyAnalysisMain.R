@@ -34,3 +34,9 @@ sqrt(sum(f(tlab1, rpart.predict(rpart(tlab1 ~ ., tset), tset)))) # blad referenc
 source("xgboost_implement.R")
 
 
+#porównanie wyników za pomoc¹ funkcji predykcji
+source("PredictionF.R")
+predicts <-myxgb_predict(model, tset)
+errors   <- `^`(tlab2 - predicts, 2)
+plot(errors)
+
