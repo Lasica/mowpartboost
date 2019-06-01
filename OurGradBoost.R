@@ -1,4 +1,4 @@
-myxgb <- function(indata, outdata, niter) {# interfejs formuly
+myxgbLegacy <- function(indata, outdata, niter) {# interfejs formuly
   models <- 1
   weights <- c(mean(outdata))
   

@@ -1,12 +1,12 @@
 library(rpart)
 library(rpart.plot)
 
-setwd("C:/Studia MGR/Semestr II/MOW/mowpartboostmain/mowpartboost")
+setwd("/qarr/projects/studia/mow/mowpartboost")
 f <- function(y, yi) {0.5*(y-yi)^2}
-#przygotowanie danych do obróbki
+#przygotowanie danych do obr?bki
 source("pRepare_Energy_data.R")
 
-#definicja funkcji implementuj¹cej boosting
+#definicja funkcji implementuj?cej boosting
 source("OurGradBoost.R")
 
 #
@@ -18,23 +18,29 @@ error <- `^`(tlab1 - predictions, 2)
 summary(error)
 #
 
-model <- myxgb(tset, tlab1, 10)
-plot(model$e)
-errors <- sqrt(model$e/dim(tset)[1])
-min(errors)
+# model <- myxgbLegacy(tset, tlab1, 10)
+# plot(model$e)
+# errors <- sqrt(model$e/dim(tset)[1])
+# min(errors)
+# 
+# model <- myxgbLegacy(tset, tlab2, 10)
+# plot(model$e)
+# errors <- sqrt(model$e/dim(tset)[1])
+# min(errors)
+# 
+# sqrt(sum(f(tlab1, rpart.predict(rpart(tlab1 ~ ., tset), tset)))) # blad referencyjny
 
-model <- myxgb(tset, tlab2, 10)
-plot(model$e)
-errors <- sqrt(model$e/dim(tset)[1])
-min(errors)
 
-sqrt(sum(f(tlab1, rpart.predict(rpart(tlab1 ~ ., tset), tset)))) # blad referencyjny
+source("myxgb.R")
+myxgb_model <- myxgb$new()
+myxgb_model$fit(formula(lights ~ . - Appliances, data=tset), tset, 10) # dziala tak samo
 
-#sprawdzenie w porównaniu z xgboostem
+
+#sprawdzenie w por?wnaniu z xgboostem
 source("xgboost_implement.R")
 
 
-#porównanie wyników za pomoc¹ funkcji predykcji
+#por?wnanie wynik?w za pomoc? funkcji predykcji
 source("PredictionF.R")
 predicts <-myxgb_predict(model, tset)
 errors   <- `^`(tlab2 - predicts, 2)
