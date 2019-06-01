@@ -1,27 +1,36 @@
 rm(list=ls())
 #setwd("/Users/arek/Documents/Studia/MGR/MOW/Projekt/od AD/mow/")
 gsmdata = read.delim("/Users/arek/Documents/Studia/MGR/MOW/Projekt/od AD/mow/datasets/gsm/raw/orange_small_test.csv")
-lab = read.delim("/Users/arek/Documents/Studia/MGR/MOW/Projekt/od AD/mow/datasets/gsm/raw/orange_small_train_appetency.labels.csv")
+lab = read.delim("/Users/arek/Documents/Studia/MGR/MOW/Projekt/od AD/mow/datasets/gsm/raw/orange_small_train_appetency.labels.csv", header = FALSE)
 
-# Sprawdzanie liczby rekordow
+# nam <- names(gsmdata)[sapply(gsmdata[names(gsmdata)], function(f)  sum(sapply(f, is.na))) < 49000]
+
+# deklaracja zbiorow uzywanych do obliczen 
 tset <-list(1)
 tset <- gsmdata[1]
+tlab <-list(1)
+tlab <- lab[1]
 j <- 1
+# Lista tych atrybutow liczba rekordow "NA" jest mniejsza od 90% wszystkich rekordow
 for (i in 1:length(names(gsmdata))) {
-  n <- names(gsmdata)[i]; 
+  n <- names(gsmdata)[i];
   s <- sum(sapply(gsmdata[n], is.na))/dim(gsmdata[n])[1]
-  plot(s[1])
-  if(s>0.1) {tset[j] <- gsmdata[i];j=j+1}
-  }
+  if(s<0.9) {tset[j] <- gsmdata[i];j=j+1}
+}
+# przerobienie -1 na 0 w lab, zapisanie tego do tlab - uzywany do obliczen
+for (i in 1:length(lab$V1)) {
+  if(lab$V1[i] == -1)   {tlab[i] <- 0}
+  else                  {tlab[i] <- 1}
+}
 
-tlab <- c(-1, lab$X.1)
 library(rpart)
 library(rpart.plot)
-# "zabawy":
-loss_matr <- matrix(c(0, 55, 1, 0), nrow = 2, byrow = TRUE)
-tree <- rpart(tlab ~ ., data=tset, method="class", cp = 1, parms = list(loss = loss_matr))
+#  Budowa macierzy kosztow pomylek (TP FP; FN TN) <- sprawdzic czy rzeczywiscie tak jest): 
+loss_matr <- matrix(c(0, sum(tlab), length(tlab) - sum(tlab), 0), nrow = 2, byrow = TRUE)
+# Budowa drzewa:
+tree <- rpart(tlab ~ ., data=tset, method="anova", parms = list(loss = loss_matr))
 rpart.plot(tree)
-maxtree <- rpart(tlab ~ ., data=tset, method="anova", cp = -1)
+# maxtree <- rpart(tlab ~ ., data=tset, method="anova", cp = -1)
 predictions <- rpart.predict(tree, tset)
 error <- `^`(tlab - predictions, 2)
 summary(error)
@@ -58,9 +67,4 @@ model <- myxgb(tset, tlab, 10)
 plot(model$e)
 
 sum(f(tlab1, rpart.predict(rpart(tlab1 ~ ., tset), tset))) # blad referencyjny
-
-
-
-
-
 

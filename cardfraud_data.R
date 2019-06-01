@@ -6,10 +6,10 @@ tset <- cfdata[1:30]
 
 library(rpart)
 library(rpart.plot)
-loss_matr <- matrix(c(0, 55, 1, 0), nrow = 2, byrow = TRUE)
-tree <- rpart(tlab ~ ., data=tset, method="class", cp = 1, parms = list(loss = loss_matr))
+loss_matr <- matrix(c(0, sum(tlab), length(tlab) - sum(tlab), 0), nrow = 2, byrow = TRUE)
+tree <- rpart(tlab ~ ., data=tset, method="anova", parms = list(loss = loss_matr))
 rpart.plot(tree)
-maxtree <- rpart(tlab ~ ., data=tset, method="anova", cp = -1)
+# maxtree <- rpart(tlab ~ ., data=tset, method="anova", cp = -1)
 predictions <- rpart.predict(tree, tset)
 error <- `^`(tlab - predictions, 2)
 summary(error)
