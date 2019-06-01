@@ -1,7 +1,8 @@
 library(rpart)
 library(rpart.plot)
 
-setwd("/qarr/projects/studia/mow/mowpartboost")
+#setwd("/qarr/projects/studia/mow/mowpartboost")
+setwd("C:/Studia MGR/Semestr II/MOW/mowpartboostmain/mowpartboost")
 f <- function(y, yi) {0.5*(y-yi)^2}
 #przygotowanie danych do obr?bki
 source("pRepare_Energy_data.R")
@@ -33,9 +34,10 @@ summary(error)
 
 source("myxgb.R")
 myxgb_model <- myxgb$new()
-myxgb_model$fit(formula(lights ~ . - Appliances, data=tset), tset, 10) # dziala tak samo
-
-
+myxgb_model$fit(formula(lights ~ . - Appliances, data=tset), tset, 10, rpart.control(maxdepth = 3)) # dziala tak samo
+rpart.plot(myxgb_model$models[[1]])
+plot(myxgb_model$rmse)
+plot(myxgb_model$weights)
 #sprawdzenie w por?wnaniu z xgboostem
 source("xgboost_implement.R")
 
