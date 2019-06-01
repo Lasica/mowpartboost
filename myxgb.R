@@ -49,7 +49,11 @@ myxgb <- setRefClass("myxgb",
                   model_result <- rpart.predict(models[[i]], data)
                   labels <- labels + model_result  * weights[[i]] 
                 }
-                
+                return(labels)
+              },
+              
+              rsquared = function (corrLab, predictLab){
+                r2 <- cor(corrLab, predictLab ) ^ 2
               }
               )
             )

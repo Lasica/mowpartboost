@@ -11,6 +11,10 @@ source("pRepare_Energy_data.R")
 source("OurGradBoost.R")
 
 #
+rsquared = function (corrLab, predictLab){
+  r2 <- cor(corrLab, predictLab ) ^ 2
+}
+
 tree <- rpart(tlab1 ~ ., data=tset, method="anova")
 rpart.plot(tree)
 maxtree <- rpart(tlab1 ~ ., data=tset, method="anova", cp = -1)
@@ -38,6 +42,7 @@ myxgb_model$fit(formula(lights ~ . - Appliances, data=tset), tset, 10, rpart.con
 rpart.plot(myxgb_model$models[[1]])
 plot(myxgb_model$rmse)
 plot(myxgb_model$weights)
+plot(rsquared(tlab2, myxgb_model$predict(tset[,c(-1,-2)])))
 #sprawdzenie w por?wnaniu z xgboostem
 source("xgboost_implement.R")
 
