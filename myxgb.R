@@ -8,7 +8,6 @@ myxgb <- setRefClass("myxgb",
                 weights <<- numeric(0)
                 rmse    <<- numeric(0)
                 models  <<- list()
-                
                 fterms <- terms(fr, data=data)
                 outdata <- data[as.character(attr(fterms, "variables")[[attr(fterms, "response")+1]])] # czemu to jest tak skomplikowane; +1 bo jak nie to wynikiem jest list
                 indata <- model.matrix(fterms, data=data)
@@ -24,8 +23,9 @@ myxgb <- setRefClass("myxgb",
                   residuum <- outdata[ ,1] - result_so_far
                   #new_formula <- update(fterms, residuum ~ .)
                   #models <<- c(models, list(rpart(new_formula, data=data, method="anova"))) # poprawic
+                  
                   models <<- c(models, list(rpart(residuum ~ ., data=indata, method="anova", model = TRUE, control = control)))
-                  model_result <- rpart.predict(models[[length(models)]], tset)
+                  model_result <- rpart.predict(models[[length(models)]], indata)
                   new_weight <- sum(model_result *(result_so_far + outdata))/sum(model_result*model_result)
                   if (sum(model_result^2) < 0.001) {
                     new_weight <- 0.0

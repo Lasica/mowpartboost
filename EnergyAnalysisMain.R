@@ -1,6 +1,6 @@
 library(rpart)
 library(rpart.plot)
-
+library(caret)
 #setwd("/qarr/projects/studia/mow/mowpartboost")
 setwd("C:/Studia MGR/Semestr II/MOW/mowpartboostmain/mowpartboost")
 f <- function(y, yi) {0.5*(y-yi)^2}
@@ -49,7 +49,33 @@ source("xgboost_implement.R")
 
 #por?wnanie wynik?w za pomoc? funkcji predykcji
 source("PredictionF.R")
-predicts <-myxgb_predict(model, tset)
+predicts <-myxgb_model$predict(tset[,c(-1,-2)])
 errors   <- `^`(tlab2 - predicts, 2)
 plot(errors)
+#tlab2 - lights
+##walidacja krzy¿owa
+source("myxgb.R")
+folds <- createFolds(tlab2, k=10, list = TRUE, returnTrain = FALSE)
+crossrmse    <- numeric()
+predicts <- numeric()
+for (i in  1:10){
+  myxgb_model <- myxgb$new()
+  myxgb_model$fit(formula(lights ~ . - Appliances, data=tset[-folds[[i]],]), tset[-folds[[i]],], 10, rpart.control(maxdepth = 3))
+  predicts <- (myxgb_model$predict(tset[folds[[i]],c(-1,-2)]))
+  error <- sum((tlab2[folds[[i]]] - predicts)^2)
+  crossrmse <- c(crossrmse, sqrt(error/dim(tset[-folds[[i]],])[1]))
+}
+  
+folds <- createFolds(tlab1, k=10, list = TRUE, returnTrain = FALSE)
+crossrmse    <- numeric()
+predicts <- numeric()
+for (i in  1:10){
+  myxgb_model <- myxgb$new()
+  myxgb_model$fit(formula(Appliances ~ . - lights, data=tset[-folds[[i]],]), tset[-folds[[i]],], 10, rpart.control(maxdepth = 3))
+  predicts <- (myxgb_model$predict(tset[folds[[i]],c(-1,-2)]))
+  error <- sum((tlab1[folds[[i]]] - predicts)^2)
+  crossrmse <- c(crossrmse, sqrt(error/dim(tset[-folds[[i]],])[1]))
+}
 
+
+##
