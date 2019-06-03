@@ -1,6 +1,7 @@
 rm(list=ls())
 #setwd("/Users/arek/Documents/Studia/MGR/MOW/Projekt/od AD/mow/")
-cfdata = read.csv("/Users/arek/Documents/Studia/MGR/MOW/Projekt/od AD/mow/datasets/cardfraud/raw/creditcard.csv")
+setwd("C:/Studia MGR/Semestr II/MOW/mowpartboostmain/mowpartboost")
+cfdata = read.csv("C:/Studia MGR/Semestr II/MOW/mowpartboostmain/mowpartboost/datasets/cardfraud/creditcard.csv")
 tlab <- cfdata$Class
 tset <- cfdata[1:30]
 
@@ -46,7 +47,21 @@ model <- myxgb(tset, tlab, 10)
 plot(model$e)
 sum(f(tlab1, rpart.predict(rpart(tlab1 ~ ., tset), tset))) # blad referencyjny
 
-
+##walidacja krzy¿owa
+folds <- createFolds(tlab, k=5, list = TRUE, returnTrain = FALSE)
+source("PredictionF.R")
+crossrmse    <- numeric()
+predicts <- numeric()
+models_list <- list()
+for (i in  1:5){
+  myxgb_model <- myxgb(tset[-folds[[i]],], tlab[-folds[[i]]], 5)
+  predicts <- predict(myxgb_model,tset[folds[[i]]]) 
+  models_list <- c(models_list, myxgb_model)
+  error <- sum((tlab[folds[[i]]] - predicts)^2)
+  crossrmse <- c(crossrmse, sqrt(error/dim(tset[-folds[[i]],])[1]))
+}
+best_model_cardFraud <- models_list[which.min(crossrmse)]
+##walidacja krzy¿owa
 
 
 
