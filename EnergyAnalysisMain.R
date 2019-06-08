@@ -55,7 +55,7 @@ predicts <- numeric()
 models_list <- list()
 for (i in  1:10){
   myxgb_model <- myxgb$new()
-  myxgb_model$fit(formula(lights ~ . - Appliances, data=tset[-folds[[i]],]), tset[-folds[[i]],], 10, rpart.control(maxdepth = 3))
+  myxgb_model$fit(lights ~ . - Appliances, tset[-folds[[i]],], 10, rpart.control(maxdepth = 3))
   predicts <- (myxgb_model$predict(lights ~ . - Appliances, tset[folds[[i]],]))
   models_list <- c(models_list, myxgb_model)
   error <- sum((tlab2[folds[[i]]] - predicts)^2)
@@ -77,5 +77,9 @@ for (i in  1:10){
 best_model_appliances <- models_list[which.min(crossrmse)]
 plot(crossrmse)
 
+source("crossValidation.R")
+form <- lights ~ . - Appliances
+models <- crossValModels(form, tset, 10)
+crossValAnalysis(form, tset, models)
 
 ##
