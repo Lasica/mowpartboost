@@ -1,3 +1,5 @@
 **/raw
 .Rhistory
 rootdirpath.R
+**.DS_Store
+**.RData
