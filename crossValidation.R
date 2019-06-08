@@ -1,4 +1,5 @@
 library(caret)
+library(ggplot2)
 source("myxgb.R")
 rsquared = function (corrValue, predictValue){
   r2 <- cor(corrLab, predictLab ) ^ 2
@@ -45,7 +46,11 @@ crossValAnalysis = function(frm, dataset, folds, models)
     error <- sum((outdata[-folds[[i]]] - training_predicts)^2)
     training_crossrmse <- c(training_crossrmse, sqrt(error/dim(dataset[-folds[[i]],])[1]))
   }
-  plot(validation_crossrmse, color='red')
+  
+  plot(validation_crossrmse, col='red', ylab = 'RMSE')
   par(new=T)
-  plot(training_crossrmse,  color='green')
+  plot(training_crossrmse, pch='x', col='green', xlab = '', ylab = '', axes = F)
+  
+  
+  
 }
