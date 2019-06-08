@@ -78,7 +78,8 @@ plot(crossrmse)
 
 source("crossValidation.R")
 form <- lights ~ . - Appliances
-models <- crossValModels(form, tset, 10)
-crossValAnalysis(form, tset, models)
+folds <- crossValFolds(form, tset, 10)
+models <- crossValModels(form, tset, folds)
+crossValAnalysis(form, tset, folds, models)
 
 ##
