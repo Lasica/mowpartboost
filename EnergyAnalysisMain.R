@@ -1,8 +1,7 @@
 library(rpart)
 library(rpart.plot)
 library(caret)
-#setwd("/qarr/projects/studia/mow/mowpartboost")
-setwd("C:/Studia MGR/Semestr II/MOW/mowpartboostmain/mowpartboost")
+
 f <- function(y, yi) {0.5*(y-yi)^2}
 #przygotowanie danych do obr?bki
 source("pRepare_Energy_data.R")
