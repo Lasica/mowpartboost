@@ -1,28 +1,6 @@
 rm(list=ls())
-#setwd("/Users/arek/Documents/Studia/MGR/MOW/Projekt/od AD/mow/")
-gsmdata = read.delim("/Users/arek/Documents/Studia/MGR/MOW/Projekt/od AD/mow/datasets/gsm/raw/orange_small_test.csv")
-lab = read.delim("/Users/arek/Documents/Studia/MGR/MOW/Projekt/od AD/mow/datasets/gsm/raw/orange_small_train_appetency.labels.csv", header = FALSE)
 
-# nam <- names(gsmdata)[sapply(gsmdata[names(gsmdata)], function(f)  sum(sapply(f, is.na))) < 49000]
-
-# deklaracja zbiorow uzywanych do obliczen 
-tset <-list(1)
-tset <- gsmdata[1]
-tlab <-list(1)
-tlab <- lab[1]
-j <- 1
-# Lista tych atrybutow liczba rekordow "NA" jest mniejsza od 90% wszystkich rekordow
-for (i in 1:length(names(gsmdata))) {
-  n <- names(gsmdata)[i];
-  s <- sum(sapply(gsmdata[n], is.na))/dim(gsmdata[n])[1]
-  if(s<0.9) {tset[j] <- gsmdata[i];j=j+1}
-}
-# przerobienie -1 na 0 w lab, zapisanie tego do tlab - uzywany do obliczen
-for (i in 1:length(lab$V1)) {
-  if(lab$V1[i] == -1)   {tlab[i] <- 0}
-  else                  {tlab[i] <- 1}
-}
-
+source("pRepare_GSM_data.R")
 library(rpart)
 library(rpart.plot)
 #  Budowa macierzy kosztow pomylek (TP FP; FN TN) <- sprawdzic czy rzeczywiscie tak jest): 
