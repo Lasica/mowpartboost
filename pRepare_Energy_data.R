@@ -4,6 +4,9 @@
 ##current_path <- substr(ccurrent_path, 1, )
 ## zak?adamy, ?e wcze?niej zmieniono ?cie?k? 
 
+rm(list=ls())
+source("rootdirpath.R")
+
 energydata = read.csv("datasets/energy/raw/energydata_complete.csv") 
 
 #przygotowanie danych o zu?yciu energii
