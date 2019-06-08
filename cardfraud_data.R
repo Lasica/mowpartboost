@@ -43,9 +43,9 @@ myxgb <- function(indata, outdata, niter) {# interfejs formuly
   #wynik - list z models i weights
 }
 
-model <- myxgb(tset, tlab, 10)
+model <- myxgb(tset, tlab, 3)
 plot(model$e)
-sum(f(tlab1, rpart.predict(rpart(tlab1 ~ ., tset), tset))) # blad referencyjny
+sum(f(tlab1, rpart.predict(rpart(tlab ~ ., tset), tset))) # blad referencyjny
 
 ##walidacja krzy¿owa
 folds <- createFolds(tlab, k=5, list = TRUE, returnTrain = FALSE)

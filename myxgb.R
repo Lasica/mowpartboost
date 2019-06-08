@@ -39,7 +39,10 @@ myxgb <- setRefClass("myxgb",
                 #wynik - dataframe z models i weights
               },
               
-              predict = function(data) {
+              predict = function(frm, dataset) {
+                fterms <- terms(frm, data=dataset)
+                data <- model.matrix(fterms, data=dataset)
+                data <- as.data.frame(data, 2:dim(data)[2])
                 labels <- numeric(nrow(data))
                 
                 labels <- labels + bias

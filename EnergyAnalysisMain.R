@@ -47,13 +47,7 @@ plot(rsquared(tlab2, myxgb_model$predict(tset[,c(-1,-2)])))
 source("xgboost_implement.R")
 
 
-#por?wnanie wynik?w za pomoc? funkcji predykcji
-source("PredictionF.R")
-predicts <-myxgb_model$predict(tset[,c(-1,-2)])
-errors   <- `^`(tlab2 - predicts, 2)
-plot(errors)
-#tlab2 - lights
-##walidacja krzy¿owa
+##walidacja krzyzowa
 source("myxgb.R")
 folds <- createFolds(tlab2, k=10, list = TRUE, returnTrain = FALSE)
 crossrmse    <- numeric()
@@ -62,7 +56,7 @@ models_list <- list()
 for (i in  1:10){
   myxgb_model <- myxgb$new()
   myxgb_model$fit(formula(lights ~ . - Appliances, data=tset[-folds[[i]],]), tset[-folds[[i]],], 10, rpart.control(maxdepth = 3))
-  predicts <- (myxgb_model$predict(tset[folds[[i]],c(-1,-2)]))
+  predicts <- (myxgb_model$predict(lights ~ . - Appliances, tset[folds[[i]],]))
   models_list <- c(models_list, myxgb_model)
   error <- sum((tlab2[folds[[i]]] - predicts)^2)
   crossrmse <- c(crossrmse, sqrt(error/dim(tset[-folds[[i]],])[1]))
@@ -81,6 +75,7 @@ for (i in  1:10){
   crossrmse <- c(crossrmse, sqrt(error/dim(tset[-folds[[i]],])[1]))
 }
 best_model_appliances <- models_list[which.min(crossrmse)]
+plot(crossrmse)
 
 
 ##
