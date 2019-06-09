@@ -23,8 +23,8 @@ source("xgboost_implement.R")
 source("crossValidation.R")
 form <- lights ~ . - Appliances
 folds <- crossValFolds(form, tset, 10)
-models <- crossValModels(form, tset, folds, rpart.control(maxdepth = 2))
-crossValAnalysis(form, tset, folds, models)
+models <- crossValModels(form, tset, folds, 5, rpart.control(maxdepth = 2))
+crossValAnalysis(form, tset, folds, models, "dla danych o zuzyciu energii")
 
 source("crossValidation.R")
 crossValAnalysis(form, tset, folds, models, "dla danych o zuzyciu energii")
