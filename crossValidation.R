@@ -54,6 +54,7 @@ crossValAnalysis = function(frm, dataset, folds, models, title)
   
   plot(validation_crossrmse, col='red', ylab = '', xlab = '' )
   title(main = paste("RMSE", title, sep = " "), ylab = 'RMSE', xlab = 'Model')
+  grid(col='black')
   par(new=T)
   plot(training_crossrmse, pch='x', col='green', xlab = '', ylab = '', axes = F)
   legend("topright",legend = c("Dane walidacyjne", "Dane treningowe"), bty = 'n', col = c("red", "green"),  
@@ -61,6 +62,7 @@ crossValAnalysis = function(frm, dataset, folds, models, title)
   
   plot(validation_r2, col='red', ylab = '', xlab = '' )
   title(main = paste("R kwadrat", title, sep = " "), ylab = 'R^2', xlab = 'Model')
+  grid(col='black')
   par(new=T)
   plot(training_r2, pch='x', col='green', xlab = '', ylab = '', axes = F)
   legend("topright",legend = c("Dane walidacyjne", "Dane treningowe"), bty = 'n', col = c("red", "green"),  
