@@ -1,6 +1,9 @@
 rm(list=ls())
 source("rootdirpath.R")
 
+#  Wczytanie danych
 cfdata = read.csv("datasets/cardfraud/raw/creditcard.csv")
-tlab <- cfdata$Class
-tset <- cfdata[1:30]
+tset <- cfdata
+
+# Stworzenie formuły
+targets <- list(Class~.)
