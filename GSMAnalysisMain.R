@@ -19,7 +19,10 @@ source("pRepare_GSM_data.R")
 source("crossValidation.R")
 for (i in 1:length(targets)) {
   form <- targets[[i]]
-  folds <- crossValFolds(form, tset, 10)
+  print(paste('Creating folds in', as.character(i), "target"))
+  folds <- crossValFolds(form, tset, 2)
+  print(paste('Building models in', as.character(i), "target"))
   models <- crossValModels(form, tset, folds)
+  print(paste('Analysing models in', as.character(i), "target"))
   crossValAnalysis(form, tset, folds, models)
 }
