@@ -69,3 +69,28 @@ crossValAnalysis = function(frm, dataset, folds, models, title)
          pch = c('o','x'), cex=0.6)
   
 }
+
+crossValAnaliseModels = function(frm, dataset, folds, models, title, subtitle)
+{
+  fterms <- terms(frm, data=dataset)
+  outdata <- as.matrix(dataset[as.character(attr(fterms, "variables")[[attr(fterms, "response")+1]])])
+  title_locRMSE <- paste("RMSE dla kolejnych drzew modelu", title, "model", sep = " " )
+  title_Weights <- paste("Wagi dla kolejnych drzew modelu", title, "model", sep = " " )
+  for (i in 1:length(models))
+  {
+    myxgb_model <- models[[i]]
+    
+    plot(myxgb_model$rmse, ylab='', xlab='')
+    grid(col='black')
+    title(main = paste(title_locRMSE, i), sub= subtitle,
+          ylab='RMSE', xlab = 'Iteracja')
+    
+    plot(myxgb_model$weights, ylab='', xlab='')
+    grid(col='black')
+    title(main = paste(title_Weights, i), sub= subtitle,
+          ylab='Wagi', xlab = 'Model')
+  
+    
+  }
+  
+}  

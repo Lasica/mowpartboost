@@ -3,17 +3,31 @@ library(rpart.plot)
 library(caret)
 
 f <- function(y, yi) {0.5*(y-yi)^2}
+rsquared = function (corrLab, predictLab){
+  r2 <- cor(corrLab, predictLab ) ^ 2
+}
 #przygotowanie danych do obr?bki
 source("pRepare_Energy_data.R")
 
-
+#eksperymenty
+maxdpt = 3
+iter = 10
+subtitle = paste('Maks. glebokosc:', maxdpt, 'Liczba iteracji', iter)
 source("myxgb.R")
+form <- lights ~ . - Appliances
 myxgb_model <- myxgb$new()
-myxgb_model$fit(formula(lights ~ . - Appliances, data=tset), tset, 10, rpart.control(maxdepth = 3)) # dziala tak samo
-rpart.plot(myxgb_model$models[[1]])
+myxgb_model$fit(form, tset, iter, rpart.control(maxdepth = maxdpt)) # dziala tak samo
+#rpart.plot(myxgb_model$models[[1]])
+
 plot(myxgb_model$rmse)
+title(main = "RMSE dla kolejnych drzew dla energii z urzadzen", sub= subtitle,
+      ylab='RMSE', xlab = 'Model')
 plot(myxgb_model$weights)
-plot(rsquared(tlab2, myxgb_model$predict(tset[,c(-1,-2)])))
+title(main = "Wagi dla kolejnych drzew dla energii z urzadzen", sub= subtitle, ylab='Waga', xlab = 'Model')
+plot(rsquared(tset[1], myxgb_model$predict(form, tset)))
+title(main = "R^2 dla predykcji", sub= subtitle, ylab='R^2', xlab = 'Model')
+#eksperymenty
+
 #sprawdzenie w por?wnaniu z xgboostem
 source("xgboost_implement.R")
 
@@ -21,11 +35,13 @@ source("xgboost_implement.R")
 ##walidacja krzyzowa
 
 source("crossValidation.R")
+maxdpt = 3
+iter = 10
+subtitle = paste('Maks. glebokosc:', maxdpt, 'Liczba iteracji', iter)
+EnergyTitle = "dla danych o zu¿yciu energii"
 form <- lights ~ . - Appliances
 folds <- crossValFolds(form, tset, 10)
-models <- crossValModels(form, tset, folds, 5, rpart.control(maxdepth = 2))
-crossValAnalysis(form, tset, folds, models, "dla danych o zuzyciu energii")
-
-source("crossValidation.R")
-crossValAnalysis(form, tset, folds, models, "dla danych o zuzyciu energii")
+models <- crossValModels(form, tset, folds, iter, rpart.control(maxdepth = maxdpt))
+crossValAnalysis(form, tset, folds, models, EnergyTitle)
+crossValAnaliseModels(form, tset, folds, models, EnergyTitle, subtitle)
 ##
