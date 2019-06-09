@@ -12,14 +12,14 @@ crossValFolds = function(frm, dataset, kfolds)
   folds <- createFolds(outdata, k=kfolds, list = TRUE, returnTrain = FALSE)
 }
 
-crossValModels = function(frm, dataset, folds, control = rpart.control())
+crossValModels = function(frm, dataset, folds, fit = 10, control = rpart.control())
 {
   models_list <- list()
   
   for (i in  1:length(folds))
   {
       myxgb_model <- myxgb$new()
-      myxgb_model$fit(frm, dataset[-folds[[i]],], 10, control)
+      myxgb_model$fit(frm, dataset[-folds[[i]],], fit, control)
       models_list <- c(models_list, myxgb_model)
   }
   return(models_list)
