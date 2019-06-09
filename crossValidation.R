@@ -2,7 +2,7 @@ library(caret)
 library(ggplot2)
 source("myxgb.R")
 rsquared = function (corrValue, predictValue){
-  r2 <- cor(corrLab, predictLab ) ^ 2
+  r2 <- cor(corrValue, predictValue ) ^ 2
 }
 
 crossValFolds = function(frm, dataset, kfolds)
@@ -12,25 +12,29 @@ crossValFolds = function(frm, dataset, kfolds)
   folds <- createFolds(outdata, k=kfolds, list = TRUE, returnTrain = FALSE)
 }
 
-crossValModels = function(frm, dataset, folds)
+crossValModels = function(frm, dataset, folds, control = rpart.control())
 {
   models_list <- list()
   
   for (i in  1:length(folds))
   {
       myxgb_model <- myxgb$new()
-      myxgb_model$fit(frm, dataset[-folds[[i]],], 10)
+      myxgb_model$fit(frm, dataset[-folds[[i]],], 10, control)
       models_list <- c(models_list, myxgb_model)
   }
   return(models_list)
 }
 
-crossValAnalysis = function(frm, dataset, folds, models)
+crossValAnalysis = function(frm, dataset, folds, models, title)
 {
   fterms <- terms(frm, data=dataset)
   outdata <- as.matrix(dataset[as.character(attr(fterms, "variables")[[attr(fterms, "response")+1]])])
   validation_crossrmse    <- numeric()
   training_crossrmse  <- numeric()
+  
+  validation_r2 <- numeric()
+  training_r2   <- numeric()
+  
   validation_predicts <- numeric()
   training_predicts   <- numeric()
   for (i in 1:length(models))
@@ -40,17 +44,26 @@ crossValAnalysis = function(frm, dataset, folds, models)
     validation_predicts <- (myxgb_model$predict(frm, dataset[folds[[i]],]))
     error <- sum((outdata[folds[[i]]] - validation_predicts)^2)
     validation_crossrmse <- c(validation_crossrmse, sqrt(error/dim(dataset[-folds[[i]],])[1]))
-    
+    validation_r2 <- c(validation_r2, rsquared(outdata[folds[[i]]], validation_predicts))
     
     training_predicts <- (myxgb_model$predict(frm, dataset[-folds[[i]],]))
     error <- sum((outdata[-folds[[i]]] - training_predicts)^2)
     training_crossrmse <- c(training_crossrmse, sqrt(error/dim(dataset[-folds[[i]],])[1]))
+    training_r2 <- c(training_r2, rsquared(outdata[-folds[[i]]], training_predicts))
   }
   
-  plot(validation_crossrmse, col='red', ylab = 'RMSE')
+  plot(validation_crossrmse, col='red', ylab = '', xlab = '' )
+  title(main = paste("RMSE", title, sep = " "), ylab = 'RMSE', xlab = 'Model')
   par(new=T)
   plot(training_crossrmse, pch='x', col='green', xlab = '', ylab = '', axes = F)
+  legend("topright",legend = c("Dane walidacyjne", "Dane treningowe"), bty = 'n', col = c("red", "green"),  
+         pch = c('o','x'), cex=0.6)
   
-  
+  plot(validation_r2, col='red', ylab = '', xlab = '' )
+  title(main = paste("R kwadrat", title, sep = " "), ylab = 'R^2', xlab = 'Model')
+  par(new=T)
+  plot(training_r2, pch='x', col='green', xlab = '', ylab = '', axes = F)
+  legend("topright",legend = c("Dane walidacyjne", "Dane treningowe"), bty = 'n', col = c("red", "green"),  
+         pch = c('o','x'), cex=0.6)
   
 }
