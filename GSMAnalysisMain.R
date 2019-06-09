@@ -19,7 +19,10 @@ source("pRepare_GSM_data.R")
 source("crossValidation.R")
 for (i in 1:length(targets)) {
   form <- targets[[i]]
+  print('crossValFolds')
   folds <- crossValFolds(form, tset, 10)
-  models <- crossValModels(form, tset, folds)
-  crossValAnalysis(form, tset, folds, models)
+  print('crossValModles')
+  models <- crossValModels(form, tset, folds, rpart.control(maxdepth = 2))
+  print('crossValAnalysis')
+  crossValAnalysis(form, tset, folds, models, "dla danych o zuzyciu energii")
 }
