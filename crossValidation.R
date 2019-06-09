@@ -18,8 +18,12 @@ crossValModels = function(frm, dataset, folds, control = rpart.control())
   
   for (i in  1:length(folds))
   {
+      print(i)  
+      print('myxgb$new')
       myxgb_model <- myxgb$new()
+      print('myxgb_model$fit')
       myxgb_model$fit(frm, dataset[-folds[[i]],], 10, control)
+      print('models_list')
       models_list <- c(models_list, myxgb_model)
   }
   return(models_list)
