@@ -72,6 +72,10 @@ crossValAnalysis = function(frm, dataset, folds, models, title)
   legend("topright",legend = c("Dane walidacyjne", "Dane treningowe"), bty = 'n', col = c("red", "green"),  
          pch = c('o','x'), cex=0.6)
   
+  # Wyrysowanie krzywej ROC - do poprawienia - który wektor do predykcji?
+  roc.estimate <- calculate_roc(validation_predicts, dataset$Class) # Do zmiany dla pozostałych zestawów danych
+  single.rocplot <- ggroc(roc.estimate)
+  plot_journal_roc(single.rocplot)
 }
 
 crossValAnaliseModels = function(frm, dataset, folds, models, title, subtitle)

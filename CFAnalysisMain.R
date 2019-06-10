@@ -1,6 +1,7 @@
 library(rpart)
 library(rpart.plot)
 library(caret)
+library(plotROC)
 
 #przygotowanie danych do obrobki
 source("pRepare_CardFraud_data.R")
