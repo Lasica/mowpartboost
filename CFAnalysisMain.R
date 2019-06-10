@@ -1,6 +1,7 @@
 library(rpart)
 library(rpart.plot)
 library(caret)
+library(plotROC)
 
 #przygotowanie danych do obrobki
 source("pRepare_CardFraud_data.R")
@@ -11,6 +12,13 @@ source("crossValidation.R")
   print('crossValFolds')
   folds <- crossValFolds(form, tset, 10)
   print('crossValModles')
-  models <- crossValModels(form, tset, folds, 2,  rpart.control(maxdepth = 2))
-  print('crossValAnalysis')
-  crossValAnalysis(form, tset, folds, models, "Kradzierze z kart bankowych")
+  models <- crossValModels(form, tset, folds, 10,  rpart.control(maxdepth = 5))
+
+  maxdpt = 5 #DO ZMIANY DO EKSPERYMENTU
+  iter = 10 #DO ZMIANY DO EKSPERYMENTU
+  
+  subtitle = paste('Maks. glebokosc:', maxdpt, 'Liczba iteracji', iter)
+  EnergyTitle = paste("dla danych o kradziezy z kart bankowych")#DO ZMIANY DO EKSPERYMENTU
+  crossValAnalysis(form, tset, folds, models, EnergyTitle)
+  crossValAnaliseModels(form, tset, folds, models, EnergyTitle, subtitle)
+  ##

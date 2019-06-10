@@ -4,7 +4,6 @@ source("rootdirpath.R")
 gsmdata = read.delim("datasets/gsm/raw/orange_small_test.csv")
 lab = read.delim("datasets/gsm/raw/orange_small_train_appetency.labels.csv", header = FALSE)
 
-
 tset <- data.frame(1:dim(gsmdata)[1])
 tlab <-list(1)
 tlab <- lab[1]
