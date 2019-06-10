@@ -5,7 +5,7 @@ library(caret)
 #przygotowanie danych do obrobki
 source("pRepare_CardFraud_data.R")
 
-#Walidacja krzyżowa 
+#Walidacja krzyzowa 
 source("crossValidation.R")
   form <- targets[[1]]
   print('crossValFolds')

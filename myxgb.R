@@ -19,29 +19,23 @@ myxgb <- setRefClass("myxgb",
                 rmse <<- c(rmse, sqrt(error/dim(data)[1]))
                 #################
                 for (i in  1:niter) {
-                  print('petla w fit():')
-                  print(i)
                   # browser()
-                  print('residuum')
                   residuum <- outdata[ ,1] - result_so_far
                   #new_formula <- update(fterms, residuum ~ .)
                   #models <<- c(models, list(rpart(new_formula, data=data, method="anova"))) # poprawic
-                  print('models')
+
                   models <<- c(models, list(rpart(residuum ~ ., data=indata, method="anova", model = TRUE, control = control)))
-                  print('model_result')
+
                   model_result <- rpart.predict(models[[length(models)]], indata)
-                  print('new_weigth')
+
                   new_weight <- sum(model_result *(result_so_far + outdata))/sum(model_result*model_result)
                   if (sum(model_result^2) < 0.001) {
                     new_weight <- 0.0
                   }
-                  print('weigths')
                   weights <<- c(weights, new_weight)
-                  print('result so far')
+
                   result_so_far <- result_so_far + new_weight * model_result
-                  print('error')
                   error <- sum(f(outdata, result_so_far))
-                  print('rmse')
                   rmse <<- c(rmse, sqrt(error/dim(data)[1]))
                 }
                 #model <- list("m" = models, "w" = weights, "e" = error)

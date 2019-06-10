@@ -35,12 +35,12 @@ source("xgboost_implement.R")
 ##walidacja krzyzowa
 
 source("crossValidation.R")
-maxdpt = 3
-iter = 10
+maxdpt = 3#DO ZMIANY DO EKSPERYMENTU
+iter = 10#DO ZMIANY DO EKSPERYMENTU
 subtitle = paste('Maks. glebokosc:', maxdpt, 'Liczba iteracji', iter)
-EnergyTitle = "dla danych o zu¿yciu energii"
-form <- lights ~ . - Appliances
-folds <- crossValFolds(form, tset, 10)
+EnergyTitle = paste("dla danych o zu¿yciu energii")#DO ZMIANY DO EKSPERYMENTU
+form <- lights ~ . - Appliances#DO ZMIANY DO EKSPERYMENTU
+folds <- crossValFolds(form, tset, 2)#DO ZMIANY DO EKSPERYMENTU
 models <- crossValModels(form, tset, folds, iter, rpart.control(maxdepth = maxdpt))
 crossValAnalysis(form, tset, folds, models, EnergyTitle)
 crossValAnaliseModels(form, tset, folds, models, EnergyTitle, subtitle)
