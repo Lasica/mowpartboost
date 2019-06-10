@@ -29,7 +29,7 @@ crossValModels = function(frm, dataset, folds, fit = 10, control = rpart.control
   return(models_list)
 }
 
-crossValAnalysis = function(frm, dataset, folds, models, title)
+crossValAnalysis = function(frm, dataset, folds, models, title, subtitle)
 {
   fterms <- terms(frm, data=dataset)
   outdata <- as.matrix(dataset[as.character(attr(fterms, "variables")[[attr(fterms, "response")+1]])])
@@ -57,7 +57,7 @@ crossValAnalysis = function(frm, dataset, folds, models, title)
   }
   
   plot(validation_crossrmse, col='red', ylab = '', xlab = '' )
-  title(main = paste("RMSE", title, sep = " "), ylab = 'RMSE', xlab = 'Model')
+  title(main = paste("RMSE", title, sep = " "), ylab = 'RMSE', xlab = 'Model', sub=subtitle)
   grid(col='black')
   par(new=T)
   plot(training_crossrmse, pch='x', col='green', xlab = '', ylab = '', axes = F)
@@ -65,7 +65,7 @@ crossValAnalysis = function(frm, dataset, folds, models, title)
          pch = c('o','x'), cex=0.6)
   
   plot(validation_r2, col='red', ylab = '', xlab = '' )
-  title(main = paste("R kwadrat", title, sep = " "), ylab = 'R^2', xlab = 'Model')
+  title(main = paste("R kwadrat", title, sep = " "), ylab = 'R^2', xlab = 'Model',sub=subtitle)
   grid(col='black')
   par(new=T)
   plot(training_r2, pch='x', col='green', xlab = '', ylab = '', axes = F)

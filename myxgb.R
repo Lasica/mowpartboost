@@ -21,9 +21,7 @@ myxgb <- setRefClass("myxgb",
                 for (i in  1:niter) {
                   # browser()
                   residuum <- outdata[ ,1] - result_so_far
-                  #new_formula <- update(fterms, residuum ~ .)
-                  #models <<- c(models, list(rpart(new_formula, data=data, method="anova"))) # poprawic
-
+                  
                   models <<- c(models, list(rpart(residuum ~ ., data=indata, method="anova", model = TRUE, control = control)))
 
                   model_result <- rpart.predict(models[[length(models)]], indata)
@@ -38,10 +36,9 @@ myxgb <- setRefClass("myxgb",
                   error <- sum(f(outdata, result_so_far))
                   rmse <<- c(rmse, sqrt(error/dim(data)[1]))
                 }
-                #model <- list("m" = models, "w" = weights, "e" = error)
-                #wynik - dataframe z models i weights
               },
-              
+              #funkcja predykcji do wykorzystania konkretnego modelu do
+              #regresji
               predict = function(frm, dataset) {
                 fterms <- terms(frm, data=dataset)
                 data <- model.matrix(fterms, data=dataset)
