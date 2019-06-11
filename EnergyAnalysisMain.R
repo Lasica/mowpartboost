@@ -37,12 +37,12 @@ source("xgboost_implement.R")
 source("crossValidation.R")
 maxdpt = 5#DO ZMIANY DO EKSPERYMENTU
 iter = 8#DO ZMIANY DO EKSPERYMENTU
-subtitle = paste('Maks. glebokosc:', 'nieustalona', 'Liczba iteracji', iter)
+subtitle = paste('Maks. glebokosc:', maxdpt, 'Liczba iteracji', iter)
 EnergyTitle = paste("dla danych o zu¿yciu energii")#DO ZMIANY DO EKSPERYMENTU
 form <- lights ~ . - Appliances#DO ZMIANY DO EKSPERYMENTU
 folds <- crossValFolds(form, tset, 2)#DO ZMIANY DO EKSPERYMENTU
-#models <- crossValModels(form, tset, folds, iter, rpart.control(maxdepth = maxdpt))
-models <- crossValModels(form, tset, folds, iter)
+models <- crossValModels(form, tset, folds, iter, rpart.control(maxdepth = maxdpt, cp= -1))
+#models <- crossValModels(form, tset, folds, iter)
 crossValAnalysis(form, tset, folds, models, EnergyTitle, subtitle)
 crossValAnaliseModels(form, tset, folds, models, EnergyTitle, subtitle)
 ##
